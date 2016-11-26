@@ -16,8 +16,8 @@ module.exports = function ProgressBarPlugin(options) {
 
   var barLeft = chalk.bold('[');
   var barRight = chalk.bold(']');
-  var preamble = chalk.cyan.bold('  build ') + barLeft;
-  var barFormat = options.format || preamble + ':bar' + barRight + chalk.green.bold(' :percent');
+  var preamble = function(msg) { return chalk.cyan.bold('  ' + msg + ' ') + barLeft} ;
+  var barFormat = options.format || ':preamble' + ':bar' + barRight + chalk.green.bold(' :percent');
   var summary = options.summary !== false;
   var summaryContent = options.summaryContent;
   var customSummary = options.customSummary;
@@ -52,7 +52,7 @@ module.exports = function ProgressBarPlugin(options) {
 
     if (lastPercent !== newPercent) {
       bar.update(percent, {
-        msg: msg
+        'preamble': preamble(msg)
       });
       lastPercent = newPercent;
     }
